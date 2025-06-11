@@ -1,19 +1,65 @@
 // Code for 2-react-ts-advanced-components
 
+import { useRef } from "react";
+
+import Form, { type FormHandle } from "./2-react-ts-advanced-components/components/form";
+import { Input } from "./2-react-ts-advanced-components/components/input";
 import { Button } from "./2-react-ts-advanced-components/components/button";
+// import { Container } from "./2-react-ts-advanced-components/components/container";
 
 function App() {
+  const customFormRef = useRef<FormHandle>(null)
+
+  function hadleSave(data: unknown) {
+    // approach using type casting (as)
+    /* const extractedData = data as { name: string; age: string }
+
+    console.log(extractedData, "extracted data"); */
+
+    // alternative approach:
+    if (
+      !data ||
+      typeof data !== 'object' ||
+      !('name' in data) ||
+      !('age' in data)
+    ) {
+      return;
+    }
+
+    // at this point, TypeScript knows that data MUST BE an object 
+    // with a name and age property
+    // otherwise, the previous if statement would have returned
+    console.log(data);
+
+
+    customFormRef.current?.clear()
+  }
+
   return (
     <main>
-      <p>
-        <Button el="button">A Button</Button>
+      <Form ref={customFormRef} onSave={hadleSave}>
+        <Input type="text" label="Name" id="name" />
+        <Input type="number" label="Age" id="age" />
+
+        <p>
+          <Button>Save</Button>
+        </p>
+      </Form>
+
+
+      {/* <Container as={Button}>
+        Click me
+      </Container> */}
+
+      {/* <p>
+        <Button>A Button</Button>
       </p>
 
       <p>
-        <Button el="anchor" href="https://google.com">
+        <Button href="https://google.com">
           A Link
         </Button>
-      </p>
+      </p> */}
     </main>
   );
 }

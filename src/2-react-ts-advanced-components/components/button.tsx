@@ -22,7 +22,6 @@ export const Button = (props: ButtonProps | AnchorProps) => {
 
   return (
     <button className="button" {...props}>
-      button
     </button>
   );
 };
